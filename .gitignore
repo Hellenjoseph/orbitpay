@@ -1,50 +1,16 @@
-# Dependency directories
-/node_modules
-/jspm_packages
+# Rust build outputs
+/target/
+**/*.rs.bk
 
-# Next.js build output
-/.next/
-/out/
-
-# Production builds
-/build
-/dist
-
-# Environment configurations
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# Logs and databases
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-*.db
-*.sqlite
-
-# OS and system files
+# OS/IDE configs
 .DS_Store
-Thumbs.db
-
-# Vercel deployment folder
-.vercel
-
-# IDE settings
-.idea/
 .vscode/
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-
-# Testing coverage
-/coverage
-
-# TypeScript compile cache
-*.tsbuildinfo
+node_modules/
+.next/
 next-env.d.ts

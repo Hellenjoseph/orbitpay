@@ -1,4 +1,4 @@
-name: CI Build & Test
+name: StellarSettle CI
 
 on:
   push:
@@ -6,72 +6,43 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  CARGO_TERM_COLOR: always
+
 jobs:
-  build-and-test:
+  validate_and_test:
+    name: Lint, Test, and Build
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
+    - name: Install Rust Toolchain
+      uses: dtolnay/rust-toolchain@stable
       with:
-        node-version: 20
+        components: rustfmt, clippy
+        targets: wasm32v1-none
 
-    - name: Install pnpm
-      uses: pnpm/action-setup@v3
-      with:
-        version: 10
-
-    - name: Get pnpm store directory
-      shell: bash
-      run: |
-        echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-    - name: Cache pnpm dependencies
+    - name: Cache Cargo Dependencies
       uses: actions/cache@v4
       with:
-        path: ${{ env.STORE_PATH }}
-        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          target
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
         restore-keys: |
-          ${{ runner.os }}-pnpm-store-
+          ${{ runner.os }}-cargo-
 
-    - name: Install dependencies
-      run: pnpm install
+    - name: Verify Code Formatting
+      run: cargo fmt --all -- --check
 
-    - name: Lint code
-      run: pnpm lint
+    - name: Run Clippy Linter
+      run: cargo clippy --all-targets -- -D warnings
 
-    - name: Build application
-      run: pnpm build
-      env:
-        NEXT_PUBLIC_SUPABASE_URL: https://placeholder-project.supabase.co
-        NEXT_PUBLIC_SUPABASE_ANON_KEY: placeholder-anon-key
-        SUPABASE_SERVICE_ROLE_KEY: placeholder-service-key
-        NEXT_PUBLIC_STELLAR_NETWORK: testnet
-        NEXT_PUBLIC_APP_NAME: StellarWhisper
+    - name: Run Unit Tests
+      run: cargo test --all-targets
 
-    - name: Start development server
-      run: pnpm dev &
-      env:
-        PORT: 3000
-        NEXT_PUBLIC_SUPABASE_URL: https://placeholder-project.supabase.co
-        NEXT_PUBLIC_SUPABASE_ANON_KEY: placeholder-anon-key
-        SUPABASE_SERVICE_ROLE_KEY: placeholder-service-key
-        NEXT_PUBLIC_STELLAR_NETWORK: testnet
-        NEXT_PUBLIC_APP_NAME: StellarWhisper
-
-    - name: Wait for dev server to start
-      run: |
-        echo "Waiting for Next.js server to spin up..."
-        for i in {1..30}; do
-          curl -s http://localhost:3000 > /dev/null && echo "Server is ready!" && break
-          echo "Still waiting..."
-          sleep 1
-        done
-
-    - name: Run API Smoke Tests
-      run: pnpm run test:vote-remove
-      env:
-        PORT: 3000
+    - name: Build Soroban Contract WASM
+      run: cargo build --target wasm32v1-none --release

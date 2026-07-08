@@ -1,60 +1,52 @@
-# Contributing to StellarWhisper 🤝
+# Contributing to StellarSettle 🌌
 
-Thank you for your interest in contributing to **StellarWhisper**! As a privacy-focused open-source project powered by Stellar, we hold our code quality, safety, and decentralization principles to a high standard.
-
-Please follow these guidelines to make sure your contribution is accepted.
+Thank you for your interest in contributing to StellarSettle! We welcome community contributions, bug reports, feature requests, and documentation improvements.
 
 ---
 
-## 🚀 Quick Start Checklist
+## 🗺️ Contribution Guidelines
 
-1. **Fork** the repository and clone it locally.
-2. Ensure you have **Node.js >= 18.x** and **pnpm** installed.
-3. Install dependencies:
-   ```bash
-   pnpm install
-   ```
-4. Create a branch named according to our convention:
-   ```bash
-   git checkout -b fix-[issue-number]
-   # Example: git checkout -b fix-102
-   ```
-   *Note: Only submit PRs for issues you are explicitly assigned to.*
+1.  **Search Existing Issues**: Before starting work or submitting a bug report, search the issue tracker to ensure it hasn't already been discussed.
+2.  **Submit a Proposal**: For larger features or changes, open an issue first to align on the design and scope.
+3.  **Create a Branch**: Create a descriptive branch name (e.g. `feat/add-new-metric` or `fix/revert-reentrancy`).
 
 ---
 
-## 🛠️ Development & Coding Guidelines
+## 🛠️ Local Development & Standards
 
-* **TypeScript**: Use strict types. Avoid using `any` unless absolutely necessary.
-* **Tailwind CSS**: Follow our dark, rich design aesthetic. Maintain layout responsiveness.
-* **Clean Code**: Keep components small, modular, and reusable.
-* **Preserve Documentation**: Do not remove or alter existing code comments or documentation unless requested.
+To ensure your code meets the quality standards required for the Stellar Wave Program:
 
-### Testing Your Changes
+### 1. Style & Formatting
+We enforce standard Rust formatting rules. Run:
+```bash
+cargo fmt --all -- --check
+```
 
-Always run the build and smoke tests before committing:
+### 2. Linting (Clippy)
+Ensure there are no compiler or style warnings:
+```bash
+cargo clippy --all-targets -- -D warnings
+```
 
-1. Validate the Next.js compilation:
-   ```bash
-   pnpm build
-   ```
-2. Verify API security via smoke tests:
-   1. In one terminal, start the development server: `pnpm dev`
-   2. In another terminal, run: `pnpm run test:vote-remove`
-   3. Ensure all tests report green (success).
+### 3. Unit Testing
+All code changes must have associated unit tests. Verify that the entire test suite passes:
+```bash
+cargo test
+```
 
----
-
-## 📥 Submitting a Pull Request
-
-1. Push your branch to your origin fork.
-2. Open a Pull Request against the `main` branch of the main repository.
-3. Describe your changes clearly in the PR description, referencing the issue number.
-4. Ensure all CI checks (linting, build, testing) pass successfully.
-5. A reviewer will look at your PR and provide feedback. Once approved, it will be merged!
+### 4. Build Verification
+Make sure the contract compiles to bare-metal WebAssembly release:
+```bash
+cargo build --target wasm32v1-none --release
+```
 
 ---
 
-## 📜 Code of Conduct
+## 📬 Pull Request Checklist
 
-We are dedicated to providing a harassment-free experience for everyone. Be respectful, helpful, and collaborative.
+When submitting a Pull Request, ensure that:
+*   [ ] All tests pass successfully (`cargo test`).
+*   [ ] Code is properly formatted (`cargo fmt`).
+*   [ ] Clippy lints are warning-free (`cargo clippy`).
+*   [ ] The contract builds for the `wasm32v1-none` target.
+*   [ ] Descriptive comments are added, preserving existing documentation.
