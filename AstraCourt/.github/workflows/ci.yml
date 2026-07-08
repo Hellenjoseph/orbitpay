@@ -1,0 +1,48 @@
+name: AstraCourt CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  validate_and_test:
+    name: Lint, Test, and Build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install Rust Toolchain
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        components: rustfmt, clippy
+        targets: wasm32v1-none
+
+    - name: Cache Cargo Dependencies
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          AstraCourt/target
+        key: ${{ runner.os }}-cargo-astracourt-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-cargo-astracourt-
+
+    - name: Verify Code Formatting
+      run: cargo fmt --manifest-path AstraCourt/Cargo.toml --all -- --check
+
+    - name: Run Clippy Linter
+      run: cargo clippy --manifest-path AstraCourt/Cargo.toml --all-targets -- -D warnings
+
+    - name: Run Unit Tests
+      run: cargo test --manifest-path AstraCourt/Cargo.toml --all-targets
+
+    - name: Build Soroban Contract WASM
+      run: cargo build --manifest-path AstraCourt/Cargo.toml --target wasm32v1-none --release

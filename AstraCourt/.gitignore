@@ -1,0 +1,16 @@
+# Rust build outputs
+/target/
+**/*.rs.bk
+
+# OS/IDE configs
+.DS_Store
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+node_modules/
+.next/
+next-env.d.ts
