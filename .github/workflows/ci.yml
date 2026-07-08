@@ -1,4 +1,4 @@
-name: StellarSettle CI
+name: OrbitPay CI
 
 on:
   push:

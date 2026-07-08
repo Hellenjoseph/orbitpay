@@ -1,5 +1,5 @@
 [package]
-name = "payment-processing-contract"
+name = "orbitpay-contract"
 version = "1.0.0"
 edition = "2021"
 description = "Soroban Smart Contract for payment processing, refunds, and query ledger"

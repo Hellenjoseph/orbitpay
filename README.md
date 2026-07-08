@@ -1,10 +1,10 @@
-# StellarSettle 🌌
+# OrbitPay 🌌
 
-[![StellarSettle CI](https://github.com/Hellenjoseph/stellarwhisper/actions/workflows/ci.yml/badge.svg)](https://github.com/Hellenjoseph/stellarwhisper/actions/workflows/ci.yml)
+[![OrbitPay CI](https://github.com/Hellenjoseph/stellarsettle/actions/workflows/ci.yml/badge.svg)](https://github.com/Hellenjoseph/stellarsettle/actions/workflows/ci.yml)
 [![Soroban](https://img.shields.io/badge/Soroban-v26.1.0-blue.svg)](https://soroban.stellar.org/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-orange.svg)](LICENSE)
 
-**StellarSettle** is a comprehensive, production-grade payment processing smart contract built for the Stellar Soroban network. Designed to power decentralized commerce, it features robust merchant onboarding, secure signature-verified payments, client-side zero-knowledge-ready refund approvals, multi-signature checkout pipelines, and host-managed filtered and sorted transaction history queries.
+**OrbitPay** is a comprehensive, production-grade payment processing smart contract built for the Stellar Soroban network. Designed to power decentralized commerce, it features robust merchant onboarding, secure signature-verified payments, client-side zero-knowledge-ready refund approvals, multi-signature checkout pipelines, and host-managed filtered and sorted transaction history queries.
 
 ---
 
@@ -22,7 +22,7 @@
 ## 🛠️ Folder Architecture
 
 ```
-stellarsettle/
+orbitpay/
 ├── .github/workflows/
 │   └── ci.yml                          # Continuous Integration pipeline
 ├── Contracts/

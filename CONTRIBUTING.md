@@ -1,6 +1,6 @@
-# Contributing to StellarSettle 🌌
+# Contributing to OrbitPay 🌌
 
-Thank you for your interest in contributing to StellarSettle! We welcome community contributions, bug reports, feature requests, and documentation improvements.
+Thank you for your interest in contributing to OrbitPay! We welcome community contributions, bug reports, feature requests, and documentation improvements.
 
 ---
 
